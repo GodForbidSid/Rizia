@@ -70,9 +70,9 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const recentSubmissions = submissions.slice(0, 6);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
       {/* Top Navigation */}
-      <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-800/80">
+      <nav className="bg-white/10 dark:bg-gray-800/10 backdrop-blur-xl border-b border-white/20 dark:border-gray-700/20 sticky top-0 z-40">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}

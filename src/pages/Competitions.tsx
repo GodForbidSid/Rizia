@@ -34,7 +34,7 @@ export default function Competitions({ user, selectedCity, onChangeCity }: Compe
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
       <Header user={user} selectedCity={selectedCity} onChangeCity={onChangeCity} />
       
       <main className="flex-1 py-12 px-4">

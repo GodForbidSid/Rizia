@@ -3322,6 +3322,16 @@
     border-color: var(--color-gray-700);
   }
 
+  .dark\:border-gray-700\/20:is(.dark *) {
+    border-color: color-mix(in srgb, oklch(.373 .034 259.733) 20%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .dark\:border-gray-700\/20:is(.dark *) {
+      border-color: color-mix(in oklab, var(--color-gray-700) 20%, transparent);
+    }
+  }
+
   .dark\:border-green-800:is(.dark *) {
     border-color: var(--color-green-800);
   }
@@ -3364,6 +3374,16 @@
 
   .dark\:bg-gray-800:is(.dark *) {
     background-color: var(--color-gray-800);
+  }
+
+  .dark\:bg-gray-800\/10:is(.dark *) {
+    background-color: color-mix(in srgb, oklch(.278 .033 256.848) 10%, transparent);
+  }
+
+  @supports (color: color-mix(in lab, red, red)) {
+    .dark\:bg-gray-800\/10:is(.dark *) {
+      background-color: color-mix(in oklab, var(--color-gray-800) 10%, transparent);
+    }
   }
 
   .dark\:bg-gray-800\/60:is(.dark *) {

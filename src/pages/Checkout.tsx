@@ -50,7 +50,7 @@ export default function Checkout({ user }: CheckoutProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
       <Header user={user} />
       
       <main className="flex-1 py-8 px-4">

@@ -18,7 +18,7 @@ export default function CompetitionDetails({ user }: CompetitionDetailsProps) {
 
   if (!event) {
     return (
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-purple-50">
+      <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
         <Header user={user} />
         <main className="flex-1 flex items-center justify-center p-4">
           <div className="text-center">
