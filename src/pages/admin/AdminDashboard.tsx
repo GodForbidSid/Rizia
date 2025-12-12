@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, 
   Trophy, 
@@ -14,63 +13,32 @@ import {
   Activity,
   BarChart3,
   Clock,
-  Sparkles,
   Search,
-  Eye,
+  Sparkles,
   ArrowUpRight,
   ArrowDownRight,
+  Eye,
   CheckCircle,
   XCircle
 } from 'lucide-react';
 import { RiziaLogo } from '../../components/RiziaLogo';
 import { ThemeToggle } from '../../components/ThemeToggle';
-import * as api from '../../utils/api';
+import { mockEvents, getAllSubmissions } from '../../data/mockData';
 
 interface AdminDashboardProps {
-  user: any;
   onLogout: () => void;
 }
 
-export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) {
-  const [analytics, setAnalytics] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchAnalytics = async () => {
-      if (!user?.accessToken) return;
-
-      try {
-        setLoading(true);
-        setError(null);
-        const data = await api.getAnalytics(user.accessToken);
-        setAnalytics(data);
-      } catch (error) {
-        // Silently handle analytics errors with fallback data
-        setError(null); // Don't show error to user
-        // Set fallback data
-        setAnalytics({
-          totalEvents: 0,
-          totalBookings: 0,
-          totalSubmissions: 0,
-          totalUsers: 0,
-          totalRevenue: 0,
-          categoryStats: {},
-          cityStats: {},
-          recentBookings: []
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAnalytics();
-  }, [user]);
+export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
+  const submissions = getAllSubmissions();
+  const pendingCount = submissions.filter(s => s.status === 'pending').length;
+  const approvedCount = submissions.filter(s => s.status === 'approved').length;
+  const rejectedCount = submissions.filter(s => s.status === 'rejected').length;
 
   const stats = [
     {
       label: 'Total Events',
-      value: analytics?.totalEvents?.toString() || '0',
+      value: mockEvents.length.toString(),
       change: '+12%',
       trend: 'up',
       icon: Trophy,
@@ -79,7 +47,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
     },
     {
       label: 'Total Bookings',
-      value: analytics?.totalBookings?.toString() || '0',
+      value: submissions.length.toString(),
       change: '+23%',
       trend: 'up',
       icon: Users,
@@ -88,7 +56,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
     },
     {
       label: 'Pending Review',
-      value: analytics?.totalSubmissions?.toString() || '0',
+      value: pendingCount.toString(),
       change: '-5%',
       trend: 'down',
       icon: Clock,
@@ -97,7 +65,7 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
     },
     {
       label: 'Revenue',
-      value: '₹' + (analytics?.totalRevenue ? (analytics.totalRevenue / 1000).toFixed(1) + 'K' : '0'),
+      value: '₹2.4L',
       change: '+18%',
       trend: 'up',
       icon: TrendingUp,
@@ -105,6 +73,9 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
       bgGradient: 'from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30'
     }
   ];
+
+  const recentEvents = mockEvents.slice(0, 5);
+  const recentSubmissions = submissions.slice(0, 6);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
@@ -189,9 +160,9 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
             >
               <FileText size={20} />
               <span>All Bookings</span>
-              {analytics?.totalSubmissions > 0 && (
+              {pendingCount > 0 && (
                 <span className="ml-auto px-2 py-0.5 bg-orange-500 text-white text-xs rounded-full">
-                  {analytics?.totalSubmissions}
+                  {pendingCount}
                 </span>
               )}
             </Link>
@@ -249,6 +220,85 @@ export default function AdminDashboard({ user, onLogout }: AdminDashboardProps) 
                 <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
               </div>
             ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {/* Recent Events */}
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-6 shadow-lg">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-gray-900 dark:text-white text-xl">Recent Events</h2>
+                <Link
+                  to="/admin/manage-competitions"
+                  className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 text-sm flex items-center gap-1"
+                >
+                  View All
+                  <ArrowUpRight size={16} />
+                </Link>
+              </div>
+              <div className="space-y-3">
+                {recentEvents.map((event) => (
+                  <div
+                    key={event.id}
+                    className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-900/50 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors group"
+                  >
+                    <div className="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-500 rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                      <Trophy size={20} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-gray-900 dark:text-white truncate group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                        {event.title}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{event.city}</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Eye size={16} className="text-gray-400" />
+                      <span className="text-xs text-gray-600 dark:text-gray-400">245</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Recent Bookings */}
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-6 shadow-lg">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-gray-900 dark:text-white text-xl">Recent Bookings</h2>
+                <Link
+                  to="/admin/manage-competitions"
+                  className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 text-sm flex items-center gap-1"
+                >
+                  View All
+                  <ArrowUpRight size={16} />
+                </Link>
+              </div>
+              <div className="space-y-3">
+                {recentSubmissions.map((submission) => {
+                  const event = mockEvents.find(e => e.id === submission.competitionId);
+                  const StatusIcon = submission.status === 'approved' ? CheckCircle : submission.status === 'rejected' ? XCircle : Clock;
+                  const statusColors = {
+                    approved: 'bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400',
+                    rejected: 'bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400',
+                    pending: 'bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-400'
+                  };
+
+                  return (
+                    <div
+                      key={submission.id}
+                      className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-900/50 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-900 transition-colors"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-gray-900 dark:text-white truncate">{event?.title}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">User #{submission.userId}</p>
+                      </div>
+                      <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full ${statusColors[submission.status]}`}>
+                        <StatusIcon size={14} />
+                        <span className="text-xs capitalize">{submission.status}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           {/* Activity Chart Placeholder */}

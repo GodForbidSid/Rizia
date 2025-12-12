@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -22,42 +22,22 @@ import {
   MoreVertical
 } from 'lucide-react';
 import { RiziaLogo } from '../../components/RiziaLogo';
-import * as api from '../../utils/api';
+import { mockEvents } from '../../data/mockData';
 
 interface ManageCompetitionsProps {
-  user: any;
   onLogout: () => void;
 }
 
-export default function ManageCompetitions({ user, onLogout }: ManageCompetitionsProps) {
+export default function ManageCompetitions({ onLogout }: ManageCompetitionsProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedCity, setSelectedCity] = useState('All');
   const [showAddModal, setShowAddModal] = useState(false);
-  const [events, setEvents] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setLoading(true);
-        const fetchedEvents = await api.getEvents();
-        setEvents(fetchedEvents || []);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-        setEvents([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
 
   const categories = ['All', 'Concert', 'Comedy', 'Dance', 'Art', 'Literature', 'Festival'];
   const cities = ['All', 'Mumbai', 'Delhi', 'Bengaluru', 'Hyderabad', 'Chennai', 'Kolkata'];
 
-  const filteredEvents = events.filter(event => {
+  const filteredEvents = mockEvents.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          event.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || event.category === selectedCategory;
@@ -328,7 +308,7 @@ export default function ManageCompetitions({ user, onLogout }: ManageCompetition
             {/* Pagination */}
             <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Showing {filteredEvents.length} of {events.length} events
+                Showing {filteredEvents.length} of {mockEvents.length} events
               </p>
               <div className="flex gap-2">
                 <button className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">

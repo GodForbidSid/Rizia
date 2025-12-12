@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { CompetitionCard } from '../components/CompetitionCard';
-import * as api from '../utils/api';
+import { mockCompetitions, getUserRegistrations, getUserSubmissions, getCompetitionById } from '../data/mockData';
 import { Calendar, FileText, Trophy, Settings } from 'lucide-react';
 
 interface DashboardProps {
@@ -12,35 +11,16 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user, onLogout }: DashboardProps) {
-  const [events, setEvents] = useState<any[]>([]);
-  const [bookings, setBookings] = useState<any[]>([]);
-  const [submissions, setSubmissions] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const registrations = getUserRegistrations(user.id);
+  const submissions = getUserSubmissions(user.id);
+  
+  const registeredCompetitions = registrations
+    .map(id => getCompetitionById(id))
+    .filter(Boolean);
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      if (!user?.id || !user?.accessToken) return;
-
-      try {
-        setLoading(true);
-        const [fetchedEvents, fetchedBookings, fetchedSubmissions] = await Promise.all([
-          api.getEvents(),
-          api.getUserBookings(user.accessToken, user.id),
-          api.getUserSubmissions(user.accessToken, user.id)
-        ]);
-        
-        setEvents(fetchedEvents || []);
-        setBookings(fetchedBookings || []);
-        setSubmissions(fetchedSubmissions || []);
-      } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
-  }, [user]);
+  const pendingSubmissions = registeredCompetitions.filter(comp => 
+    !submissions.some(sub => sub.competitionId === comp?.id)
+  );
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900">
@@ -63,7 +43,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
                 <Trophy className="text-blue-600" size={24} />
                 <span className="text-gray-600">Active Competitions</span>
               </div>
-              <div className="text-gray-900">{events.length}</div>
+              <div className="text-gray-900">{mockCompetitions.length}</div>
             </div>
 
             <div className="bg-white rounded-lg p-6 border border-gray-200">
@@ -71,7 +51,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
                 <FileText className="text-green-600" size={24} />
                 <span className="text-gray-600">Registered</span>
               </div>
-              <div className="text-gray-900">{bookings.length}</div>
+              <div className="text-gray-900">{registrations.length}</div>
             </div>
 
             <div className="bg-white rounded-lg p-6 border border-gray-200">
@@ -92,33 +72,27 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
           </div>
 
           {/* Pending Submissions Alert */}
-          {bookings.length > 0 && submissions.length < bookings.length && (
+          {pendingSubmissions.length > 0 && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
               <h3 className="text-yellow-900 mb-2">Pending Submissions</h3>
               <p className="text-yellow-800 mb-4">
-                You have {bookings.length - submissions.length} competition(s) awaiting your submission
+                You have {pendingSubmissions.length} competition(s) awaiting your submission
               </p>
               <div className="space-y-2">
-                {bookings.map((booking) => {
-                  const event = events.find(e => e.id === booking.eventId);
-                  if (!event) return null;
-                  const isSubmitted = submissions.some(sub => sub.eventId === event.id);
-                  if (isSubmitted) return null;
-                  return (
-                    <div key={event.id} className="flex items-center justify-between bg-white rounded p-3">
-                      <div>
-                        <div className="text-gray-900">{event.title}</div>
-                        <div className="text-sm text-gray-600">Deadline: {event.deadline}</div>
-                      </div>
-                      <Link
-                        to={`/submission/${event.id}`}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                      >
-                        Submit Work
-                      </Link>
+                {pendingSubmissions.map((comp) => (
+                  <div key={comp?.id} className="flex items-center justify-between bg-white rounded p-3">
+                    <div>
+                      <div className="text-gray-900">{comp?.title}</div>
+                      <div className="text-sm text-gray-600">Deadline: {comp?.deadline}</div>
                     </div>
-                  );
-                })}
+                    <Link
+                      to={`/submission/${comp?.id}`}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Submit Work
+                    </Link>
+                  </div>
+                ))}
               </div>
             </div>
           )}
@@ -151,25 +125,23 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
           </div>
 
           {/* Registered Competitions */}
-          {bookings.length > 0 && (
+          {registeredCompetitions.length > 0 && (
             <div className="mb-8">
               <h2 className="text-gray-900 mb-6">Your Registered Competitions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {bookings.map((booking) => {
-                  const event = events.find(e => e.id === booking.eventId);
-                  if (!event) return null;
-                  return (
+                {registeredCompetitions.map((comp) => (
+                  comp && (
                     <CompetitionCard
-                      key={event.id}
-                      id={event.id}
-                      title={event.title}
-                      category={event.category}
-                      description={event.description}
-                      deadline={event.deadline}
-                      prize={event.prize}
+                      key={comp.id}
+                      id={comp.id}
+                      title={comp.title}
+                      category={comp.category}
+                      description={comp.description}
+                      deadline={comp.deadline}
+                      prize={comp.prize}
                     />
-                  );
-                })}
+                  )
+                ))}
               </div>
             </div>
           )}
@@ -178,15 +150,15 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
           <div>
             <h2 className="text-gray-900 mb-6">Available Competitions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {events.slice(0, 3).map((event) => (
+              {mockCompetitions.slice(0, 3).map((comp) => (
                 <CompetitionCard
-                  key={event.id}
-                  id={event.id}
-                  title={event.title}
-                  category={event.category}
-                  description={event.description}
-                  deadline={event.deadline}
-                  prize={event.prize}
+                  key={comp.id}
+                  id={comp.id}
+                  title={comp.title}
+                  category={comp.category}
+                  description={comp.description}
+                  deadline={comp.deadline}
+                  prize={comp.prize}
                 />
               ))}
             </div>
