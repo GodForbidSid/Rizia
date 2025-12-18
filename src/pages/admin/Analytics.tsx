@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { RiziaLogo } from '../../components/RiziaLogo';
 import { mockEvents, getAllSubmissions } from '../../data/mockData';
+import { AdminMobileNav } from '../../components/AdminMobileNav';
 
 interface AnalyticsProps {
   onLogout: () => void;
@@ -92,26 +93,23 @@ export default function Analytics({ onLogout }: AnalyticsProps) {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
       {/* Top Navigation */}
       <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-800/80">
-        <div className="px-6 py-4">
+        <div className="px-4 md:px-6 py-4">
           <div className="flex items-center justify-between">
             <Link to="/" className="hover:opacity-90 transition-opacity">
-              <RiziaLogo size="md" />
+              <RiziaLogo size="sm" />
             </Link>
 
-            <div className="flex items-center gap-3">
-              <button className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors relative">
-                <Bell size={20} className="text-gray-600 dark:text-gray-400" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <button className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors">
-                <Settings size={20} className="text-gray-600 dark:text-gray-400" />
+            <div className="flex items-center gap-2 md:gap-3">
+              <button className="p-2 md:p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors relative">
+                <Bell size={18} className="text-gray-600 dark:text-gray-400 md:w-5 md:h-5" />
+                <span className="absolute top-1 right-1 md:top-1.5 md:right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
               <button
                 onClick={onLogout}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg"
+                className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg"
               >
-                <LogOut size={18} />
-                <span className="hidden sm:inline">Logout</span>
+                <LogOut size={16} className="md:w-[18px] md:h-[18px]" />
+                <span className="hidden sm:inline text-sm">Logout</span>
               </button>
             </div>
           </div>
@@ -120,7 +118,7 @@ export default function Analytics({ onLogout }: AnalyticsProps) {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-73px)] p-6">
+        <aside className="hidden lg:block w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-73px)] p-6">
           <div className="mb-8">
             <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 rounded-2xl border border-purple-200 dark:border-purple-800">
               <div className="w-10 h-10 bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 rounded-xl flex items-center justify-center text-white">
@@ -177,44 +175,48 @@ export default function Analytics({ onLogout }: AnalyticsProps) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 md:p-6 pb-20 lg:pb-6">
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center justify-between mb-2">
-              <h1 className="text-gray-900 dark:text-white text-3xl">Analytics Dashboard</h1>
-              <div className="flex gap-3">
-                <button className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
-                  <Calendar size={18} />
-                  <span>Last 30 Days</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
+              <div>
+                <h1 className="text-gray-900 dark:text-white text-2xl sm:text-3xl mb-1">Analytics Dashboard</h1>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">Comprehensive insights into your platform performance</p>
+              </div>
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                <button className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-sm">
+                  <Calendar size={16} className="sm:w-[18px] sm:h-[18px]" />
+                  <span className="hidden sm:inline">Last 30 Days</span>
+                  <span className="sm:hidden">30D</span>
                 </button>
-                <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg">
-                  <Download size={18} />
-                  <span>Export Report</span>
+                <button className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg text-sm">
+                  <Download size={16} className="sm:w-[18px] sm:h-[18px]" />
+                  <span className="hidden sm:inline">Export Report</span>
+                  <span className="sm:hidden">Export</span>
                 </button>
               </div>
             </div>
-            <p className="text-gray-600 dark:text-gray-400">Comprehensive insights into your platform performance</p>
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
             {stats.map((stat, index) => (
-              <div key={index} className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all group">
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-3 bg-gradient-to-br ${stat.color} rounded-2xl shadow-lg group-hover:scale-110 transition-transform`}>
-                    <stat.icon className="text-white" size={24} />
+              <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl md:rounded-3xl p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all group">
+                <div className="flex items-start justify-between mb-3 md:mb-4">
+                  <div className={`p-2 md:p-3 bg-gradient-to-br ${stat.color} rounded-xl md:rounded-2xl shadow-lg group-hover:scale-110 transition-transform`}>
+                    <stat.icon className="text-white" size={20} />
                   </div>
-                  <div className={`flex items-center gap-1 px-2 py-1 rounded-lg ${
+                  <div className={`flex items-center gap-1 px-1.5 md:px-2 py-0.5 md:py-1 rounded-lg ${
                     stat.trend === 'up' 
                       ? 'bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400' 
                       : 'bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400'
                   }`}>
-                    {stat.trend === 'up' ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                    {stat.trend === 'up' ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
                     <span className="text-xs">{stat.change}</span>
                   </div>
                 </div>
-                <div className="text-3xl text-gray-900 dark:text-white mb-1">{stat.value}</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
+                <div className="text-2xl md:text-3xl text-gray-900 dark:text-white mb-1">{stat.value}</div>
+                <div className="text-xs md:text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -265,9 +267,37 @@ export default function Analytics({ onLogout }: AnalyticsProps) {
           </div>
 
           {/* City Performance */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 mb-8">
-            <h2 className="text-gray-900 dark:text-white mb-6 text-xl">City-wise Performance</h2>
-            <div className="overflow-x-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700 mb-6 md:mb-8">
+            <h2 className="text-gray-900 dark:text-white mb-4 md:mb-6 text-lg md:text-xl">City-wise Performance</h2>
+            
+            {/* Mobile Card View */}
+            <div className="lg:hidden space-y-3">
+              {cityPerformance.map((city, index) => (
+                <div key={index} className="bg-gradient-to-r from-gray-50 to-purple-50 dark:from-gray-900/50 dark:to-purple-950/30 rounded-2xl p-4">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <h3 className="text-gray-900 dark:text-white mb-1">{city.city}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{city.bookings} bookings</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-gray-900 dark:text-white">{city.revenue}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full transition-all"
+                        style={{ width: `${city.percentage}%` }}
+                      ></div>
+                    </div>
+                    <span className="text-sm text-gray-600 dark:text-gray-400 w-12">{city.percentage}%</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead className="border-b border-gray-200 dark:border-gray-700">
                   <tr>
@@ -302,31 +332,34 @@ export default function Analytics({ onLogout }: AnalyticsProps) {
           </div>
 
           {/* Chart Placeholder */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-gray-900 dark:text-white text-xl">Revenue Trend</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-3xl p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 gap-3">
+              <h2 className="text-gray-900 dark:text-white text-lg md:text-xl">Revenue Trend</h2>
               <div className="flex gap-2">
-                <button className="px-3 py-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-lg text-sm">
+                <button className="flex-1 sm:flex-none px-3 py-1.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-lg text-sm">
                   30 Days
                 </button>
-                <button className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg text-sm">
+                <button className="flex-1 sm:flex-none px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg text-sm">
                   90 Days
                 </button>
-                <button className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg text-sm">
+                <button className="flex-1 sm:flex-none px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg text-sm">
                   1 Year
                 </button>
               </div>
             </div>
-            <div className="h-80 flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-2xl">
-              <div className="text-center">
-                <Activity className="mx-auto mb-3 text-purple-500" size={64} />
-                <p className="text-gray-600 dark:text-gray-400 text-lg">Revenue chart visualization</p>
-                <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">Integration with charting library would display detailed trends here</p>
+            <div className="h-64 md:h-80 flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 rounded-2xl">
+              <div className="text-center px-4">
+                <Activity className="mx-auto mb-3 text-purple-500" size={48} />
+                <p className="text-gray-600 dark:text-gray-400 text-base md:text-lg">Revenue chart visualization</p>
+                <p className="text-xs md:text-sm text-gray-500 dark:text-gray-500 mt-2">Integration with charting library would display detailed trends here</p>
               </div>
             </div>
           </div>
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <AdminMobileNav />
     </div>
   );
 }

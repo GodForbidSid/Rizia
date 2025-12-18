@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   LayoutDashboard, 
@@ -7,23 +8,22 @@ import {
   LogOut,
   Settings,
   Bell,
-  TrendingUp,
-  DollarSign,
-  Calendar,
-  Activity,
-  BarChart3,
-  Clock,
   Search,
+  BarChart3,
   Sparkles,
   ArrowUpRight,
   ArrowDownRight,
+  Clock,
   Eye,
   CheckCircle,
-  XCircle
+  XCircle,
+  TrendingUp,
+  Activity
 } from 'lucide-react';
 import { RiziaLogo } from '../../components/RiziaLogo';
 import { ThemeToggle } from '../../components/ThemeToggle';
 import { mockEvents, getAllSubmissions } from '../../data/mockData';
+import { AdminMobileNav } from '../../components/AdminMobileNav';
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -124,7 +124,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-73px)] p-6">
+        <aside className="hidden lg:block w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-73px)] p-6">
           <div className="mb-8">
             <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 rounded-2xl border border-purple-200 dark:border-purple-800">
               <div className="w-10 h-10 bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 rounded-xl flex items-center justify-center text-white">
@@ -186,7 +186,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 md:p-6">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
@@ -197,7 +197,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
             {stats.map((stat, index) => (
               <div
                 key={index}
@@ -222,7 +222,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-8">
             {/* Recent Events */}
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl p-6 shadow-lg">
               <div className="flex items-center justify-between mb-6">
@@ -321,6 +321,9 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
           </div>
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <AdminMobileNav />
     </div>
   );
 }

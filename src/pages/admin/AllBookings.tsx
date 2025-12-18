@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { RiziaLogo } from '../../components/RiziaLogo';
 import { getAllSubmissions, getEventById } from '../../data/mockData';
+import { AdminMobileNav } from '../../components/AdminMobileNav';
 
 interface AllBookingsProps {
   onLogout: () => void;
@@ -89,40 +90,38 @@ export default function AllBookings({ onLogout }: AllBookingsProps) {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
       {/* Top Navigation */}
       <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-800/80">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
+        <div className="px-4 md:px-6 py-4">
+          <div className="flex items-center justify-between gap-3">
             <Link to="/" className="hover:opacity-90 transition-opacity">
-              <RiziaLogo size="md" />
+              <RiziaLogo size="sm" />
             </Link>
 
-            <div className="hidden md:flex flex-1 max-w-md mx-8">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
-                <input
-                  type="text"
-                  placeholder="Search bookings..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors relative">
-                <Bell size={20} className="text-gray-600 dark:text-gray-400" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <button className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors">
-                <Settings size={20} className="text-gray-600 dark:text-gray-400" />
+            <div className="flex items-center gap-2 md:gap-3">
+              <button className="p-2 md:p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors relative">
+                <Bell size={18} className="text-gray-600 dark:text-gray-400 md:w-5 md:h-5" />
+                <span className="absolute top-1 right-1 md:top-1.5 md:right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
               <button
                 onClick={onLogout}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg"
+                className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg"
               >
-                <LogOut size={18} />
-                <span className="hidden sm:inline">Logout</span>
+                <LogOut size={16} className="md:w-[18px] md:h-[18px]" />
+                <span className="hidden sm:inline text-sm">Logout</span>
               </button>
+            </div>
+          </div>
+          
+          {/* Mobile Search Bar */}
+          <div className="mt-3 md:hidden">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
+              <input
+                type="text"
+                placeholder="Search bookings..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all"
+              />
             </div>
           </div>
         </div>
@@ -130,7 +129,7 @@ export default function AllBookings({ onLogout }: AllBookingsProps) {
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-73px)] p-6">
+        <aside className="hidden lg:block w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-73px)] p-6">
           <div className="mb-8">
             <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 rounded-2xl border border-purple-200 dark:border-purple-800">
               <div className="w-10 h-10 bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 rounded-xl flex items-center justify-center text-white">
@@ -187,15 +186,15 @@ export default function AllBookings({ onLogout }: AllBookingsProps) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 md:p-6 pb-20 lg:pb-6">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-gray-900 dark:text-white text-3xl mb-2">All Bookings</h1>
-            <p className="text-gray-600 dark:text-gray-400">Manage and track all event bookings</p>
+          <div className="mb-6">
+            <h1 className="text-gray-900 dark:text-white text-2xl sm:text-3xl mb-2">All Bookings</h1>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">Manage and review all event bookings</p>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
             {stats.map((stat, index) => (
               <div key={index} className="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
                 <div className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center mb-4`}>
@@ -208,13 +207,13 @@ export default function AllBookings({ onLogout }: AllBookingsProps) {
           </div>
 
           {/* Filters */}
-          <div className="flex flex-wrap gap-4 mb-6">
-            <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 mb-6">
+            <div className="flex flex-wrap gap-2">
               {['All', 'Pending', 'Approved', 'Rejected'].map((status) => (
                 <button
                   key={status}
                   onClick={() => setStatusFilter(status)}
-                  className={`px-4 py-2 rounded-xl transition-all ${
+                  className={`px-3 sm:px-4 py-2 rounded-xl transition-all text-sm ${
                     statusFilter === status
                       ? 'bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-lg'
                       : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
@@ -224,15 +223,80 @@ export default function AllBookings({ onLogout }: AllBookingsProps) {
                 </button>
               ))}
             </div>
-            <button className="ml-auto flex items-center gap-2 px-6 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
-              <Download size={20} />
+            <button className="sm:ml-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-sm">
+              <Download size={18} />
               <span>Export</span>
             </button>
           </div>
 
           {/* Bookings Table */}
           <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="overflow-x-auto">
+            {/* Mobile Card View */}
+            <div className="lg:hidden p-4 space-y-4">
+              {filteredSubmissions.map((submission) => {
+                const event = getEventById(submission.competitionId);
+                const StatusIcon = getStatusIcon(submission.status);
+
+                return (
+                  <div key={submission.id} className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-md">
+                    {/* Booking Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">#{submission.id.substring(0, 8)}</span>
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs ${getStatusColor(submission.status)}`}>
+                            <StatusIcon size={12} />
+                            <span className="capitalize">{submission.status}</span>
+                          </span>
+                        </div>
+                        <h3 className="text-gray-900 dark:text-white mb-1">{event?.title}</h3>
+                      </div>
+                    </div>
+
+                    {/* Booking Details */}
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <MapPin size={14} />
+                        <span>{event?.city}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <Calendar size={14} />
+                        <span>{new Date(submission.submittedAt).toLocaleDateString()}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <Mail size={14} />
+                        <span>user@example.com</span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex items-center gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <Link
+                        to={`/admin/review-submissions/${submission.competitionId}`}
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all text-sm"
+                      >
+                        <Eye size={16} />
+                        <span>View</span>
+                      </Link>
+                      {submission.status === 'pending' && (
+                        <>
+                          <button className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors text-sm">
+                            <CheckCircle size={16} />
+                            <span>Approve</span>
+                          </button>
+                          <button className="p-2 bg-red-50 dark:bg-red-950/30 text-red-500 rounded-xl hover:bg-red-100 dark:hover:bg-red-950/50 transition-all">
+                            <XCircle size={18} />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
                   <tr>
@@ -335,6 +399,9 @@ export default function AllBookings({ onLogout }: AllBookingsProps) {
           </div>
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <AdminMobileNav />
     </div>
   );
 }

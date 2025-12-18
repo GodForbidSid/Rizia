@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { RiziaLogo } from '../../components/RiziaLogo';
 import { mockEvents } from '../../data/mockData';
+import { AdminMobileNav } from '../../components/AdminMobileNav';
 
 interface ManageCompetitionsProps {
   onLogout: () => void;
@@ -62,40 +63,38 @@ export default function ManageCompetitions({ onLogout }: ManageCompetitionsProps
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-950">
       {/* Top Navigation */}
       <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-800/80">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
+        <div className="px-4 md:px-6 py-4">
+          <div className="flex items-center justify-between gap-3">
             <Link to="/" className="hover:opacity-90 transition-opacity">
-              <RiziaLogo size="md" />
+              <RiziaLogo size="sm" />
             </Link>
 
-            <div className="hidden md:flex flex-1 max-w-md mx-8">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
-                <input
-                  type="text"
-                  placeholder="Search events..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors relative">
-                <Bell size={20} className="text-gray-600 dark:text-gray-400" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-              <button className="p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors">
-                <Settings size={20} className="text-gray-600 dark:text-gray-400" />
+            <div className="flex items-center gap-2 md:gap-3">
+              <button className="p-2 md:p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl transition-colors relative">
+                <Bell size={18} className="text-gray-600 dark:text-gray-400 md:w-5 md:h-5" />
+                <span className="absolute top-1 right-1 md:top-1.5 md:right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
               <button
                 onClick={onLogout}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg"
+                className="flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg"
               >
-                <LogOut size={18} />
-                <span className="hidden sm:inline">Logout</span>
+                <LogOut size={16} className="md:w-[18px] md:h-[18px]" />
+                <span className="hidden sm:inline text-sm">Logout</span>
               </button>
+            </div>
+          </div>
+          
+          {/* Mobile Search Bar */}
+          <div className="mt-3 md:hidden">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
+              <input
+                type="text"
+                placeholder="Search events..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all"
+              />
             </div>
           </div>
         </div>
@@ -103,7 +102,7 @@ export default function ManageCompetitions({ onLogout }: ManageCompetitionsProps
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-73px)] p-6">
+        <aside className="hidden lg:block w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-73px)] p-6">
           <div className="mb-8">
             <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30 rounded-2xl border border-purple-200 dark:border-purple-800">
               <div className="w-10 h-10 bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-500 rounded-xl flex items-center justify-center text-white">
@@ -160,32 +159,32 @@ export default function ManageCompetitions({ onLogout }: ManageCompetitionsProps
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-4 md:p-6 pb-20 lg:pb-6">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-6">
+          <div className="mb-6 md:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 gap-3 md:gap-4">
               <div>
-                <h1 className="text-gray-900 dark:text-white text-3xl mb-2">Manage Events</h1>
-                <p className="text-gray-600 dark:text-gray-400">Create, edit, and manage all your events</p>
+                <h1 className="text-gray-900 dark:text-white text-2xl sm:text-3xl mb-1 md:mb-2">Manage Events</h1>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">Create, edit, and manage all your events</p>
               </div>
               <button
                 onClick={() => setShowAddModal(true)}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg hover:shadow-xl"
+                className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all shadow-lg hover:shadow-xl text-sm whitespace-nowrap"
               >
-                <Plus size={20} />
+                <Plus size={18} className="sm:w-5 sm:h-5" />
                 <span>Add New Event</span>
               </button>
             </div>
 
             {/* Filters */}
-            <div className="flex flex-wrap gap-4">
-              <div className="flex-1 min-w-64">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+              <div className="flex-1 min-w-[200px]">
                 <div className="relative">
-                  <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                  <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 text-gray-900 dark:text-white appearance-none cursor-pointer"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 text-gray-900 dark:text-white appearance-none cursor-pointer text-sm"
                   >
                     {categories.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -194,13 +193,13 @@ export default function ManageCompetitions({ onLogout }: ManageCompetitionsProps
                 </div>
               </div>
 
-              <div className="flex-1 min-w-64">
+              <div className="flex-1 min-w-[200px]">
                 <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <select
                     value={selectedCity}
                     onChange={(e) => setSelectedCity(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 text-gray-900 dark:text-white appearance-none cursor-pointer"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 text-gray-900 dark:text-white appearance-none cursor-pointer text-sm"
                   >
                     {cities.map(city => (
                       <option key={city} value={city}>{city}</option>
@@ -209,8 +208,8 @@ export default function ManageCompetitions({ onLogout }: ManageCompetitionsProps
                 </div>
               </div>
 
-              <button className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
-                <Download size={20} />
+              <button className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-sm">
+                <Download size={18} />
                 <span>Export</span>
               </button>
             </div>
@@ -218,7 +217,70 @@ export default function ManageCompetitions({ onLogout }: ManageCompetitionsProps
 
           {/* Events Table */}
           <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="overflow-x-auto">
+            {/* Mobile Card View */}
+            <div className="lg:hidden p-4 space-y-4">
+              {filteredEvents.map((event) => (
+                <div key={event.id} className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-md">
+                  {/* Event Header */}
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className={`w-14 h-14 bg-gradient-to-br ${getCategoryColor(event.category)} rounded-xl flex items-center justify-center text-white flex-shrink-0`}>
+                      <Trophy size={22} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-gray-900 dark:text-white mb-1">{event.title}</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{event.description}</p>
+                    </div>
+                  </div>
+
+                  {/* Category Badge */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className={`inline-flex px-3 py-1 bg-gradient-to-r ${getCategoryColor(event.category)} text-white rounded-full text-sm`}>
+                      {event.category}
+                    </span>
+                    <span className="inline-flex px-3 py-1 bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400 rounded-full text-sm">
+                      Active
+                    </span>
+                  </div>
+
+                  {/* Event Details */}
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                      <Calendar size={16} />
+                      <span>{event.date} • {event.time}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                      <MapPin size={16} />
+                      <span>{event.city}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-900 dark:text-white">
+                      <IndianRupee size={16} />
+                      <span className="font-semibold">{event.price}</span>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <Link
+                      to={`/competition/${event.id}`}
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all text-sm"
+                    >
+                      <Eye size={16} />
+                      <span>View</span>
+                    </Link>
+                    <button className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 transition-all text-sm">
+                      <Edit size={16} />
+                      <span>Edit</span>
+                    </button>
+                    <button className="p-2 bg-red-50 dark:bg-red-950/30 text-red-500 rounded-xl hover:bg-red-100 dark:hover:bg-red-950/50 transition-all">
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
                   <tr>
@@ -328,6 +390,9 @@ export default function ManageCompetitions({ onLogout }: ManageCompetitionsProps
           </div>
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <AdminMobileNav />
     </div>
   );
 }
